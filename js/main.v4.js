@@ -123,20 +123,24 @@ function update(source) {
         .attr("transform", function (d) {
             return "translate(" + source.y0 + "," + source.x0 + ")";
         })
-        .on('click', click);
+        .on('contextmenu',d3.contextMenu(menu));
 
     // Add Circle for the nodes
     nodeEnter.append('circle')
         .attr('class', 'node')
         .attr('r', 1e-6)
         .style("fill", function (d) {
-            return d._children ? "lightsteelblue" : "#fff";
-        });
+            return d._children ? d.c : "#fff";
+        })
+        .on('click', click);
 
     // Add labels for the nodes
     nodeEnter.append('text')
         .attr("dy", function (d) {
             return d.children && !d._children? "-1em" : ".35em";
+        })
+        .attr('id',function(d){
+            return d.newnode ? "newnode" : "";
         })
         .attr("x", function (d) {
             return d.children ? 0 : 13;
@@ -146,7 +150,7 @@ function update(source) {
         })
         .text(function (d) {
             return d.data.name;
-        });
+        }).on("dblclick",function(d){ d3.input(d,this)});
 
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
@@ -169,8 +173,7 @@ function update(source) {
         })
         .style("stroke", function(d){
             return d.c;
-        })
-        .attr('cursor', 'pointer');
+        });
 
     nodeUpdate.select('text').transition().duration(duration)
         .attr("dy", function (d) {
@@ -181,6 +184,8 @@ function update(source) {
         })
         .attr("text-anchor", function (d) {
             return d.children ? "middle" : "start";
+        }).text(function (d) {
+            return d.data.name;
         });
         
 
@@ -285,7 +290,7 @@ function dragged(d) {
 }
 
 // Toggle children on click.
-function click(d) {
+function toggleNode (d) {
     if (d.children) {
         d._children = d.children;
         d.children = null;
@@ -293,6 +298,58 @@ function click(d) {
         d.children = d._children;
         d._children = null;
     }
+}
+
+function click (d) {
+    d3.event.preventDefault();
+    d3.event.stopPropagation();
+    toggleNode(d);
     update(d);
     centerNode(d);
 }
+
+
+
+var menu = [
+    {
+        title: 'New Node',
+        action: function (elm, d, i) {
+            if (d._children && d._children != null) {
+                toggleNode(d);
+            }
+            var node = d3.hierarchy({ 'name': "new node" });
+            node.parent = d;
+            node.depth = (d.depth + 1);
+            node.c = (d.depth == 0 ? color(d.children.length + 1) : d.c);
+            // node.c = d.c;
+            node.newnode = 1;
+
+            if (d.children == null) {
+                d.children = new Array(node);
+            } else {
+                d.children.splice(d.children.length, 0, node);
+            }
+            update(d);
+
+            d3.input(node,document.getElementById("newnode"));
+        }
+    },
+    {
+        title: 'Remove Node',
+        action: function (elm, d, i) {
+            if (d.parent) {
+                // find child and remove it
+                for (var n = 0; n < d.parent.children.length; n++) {
+                    if (d.parent.children[n].data.name === d.data.name) {
+                        d.parent.children.splice(n, 1);
+                        break;
+                    }
+                }
+                if(d.parent.children.length == 0){
+                    d.parent.children = null;
+                }
+            }
+            update(d);
+        }
+    }
+];

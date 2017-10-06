@@ -1,0 +1,93 @@
+*{
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #efefef;
+}
+
+.node circle {
+    fill: #fff;
+    stroke-opacity: 0.8;
+    stroke-width: 4px;
+    background-color: #efefef;
+    cursor: pointer;
+}
+
+.node text {
+    font-size: 14px;
+    cursor: default;
+}
+
+.link {
+    fill: none;
+    stroke-opacity: 0.8;
+    stroke-width: 6px;
+}
+
+/* d3-context-menu styles */
+
+.d3-context-menu {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 120px;
+    padding: 3px 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #c5c5c5;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 4px 8px rgba(0,0,0,.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+}
+
+.d3-context-menu ul {
+	list-style-type: none;
+	margin: 4px 0px;
+	padding: 0px;
+	cursor: default;
+}
+
+.d3-context-menu ul li {
+    padding: 3px 10px;
+    font-size: 12px;
+}
+
+.d3-context-menu ul li:hover {
+	background-color: #4677f8;
+	color: #fefefe;
+}
+
+/* d3-input styles */
+.receiver {
+    position: absolute;
+    background: #fff;
+    outline: 0;
+    box-shadow: 0 0 20px rgba(0,0,0,.5);
+    left: 0;
+    top: 0;
+    padding: 2px 3px;
+    width: auto;
+    min-width: 120;
+    font-size: 14px;
+    line-height: 1.4em;
+    min-height: 1.4em;
+    box-sizing: border-box;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
+    border-color: none;
+    border-radius: 3;
+    opacity: 0;
+    z-index: -1000
+}
+.receiver.input {
+    opacity: 1;
+    z-index: 999;
+}
