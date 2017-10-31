@@ -13,8 +13,6 @@ d3.input = function (d,elm) {
 
 
 
-
-
     // display context menu
     var receiver = d3.select('.receiver')
         .style('min-width',(elmd.width * svgtransfom.k + 5)+ 'px')
