@@ -28,7 +28,7 @@ var svg = d3.select('body').append('svg')
 
 var g = svg.append('g');
 
-var uri = '/Leaf/public/tree/api/5466ee572bcbc75830d044e66ab429bc';
+var uri = 'https://goodday.ddns.net/Leaf/public/tree/api/5466ee572bcbc75830d044e66ab429bc';
 // var uri = 'flare.json'
 d3.json(uri, function (error, flare) {
     if (error) throw error;
