@@ -123,7 +123,7 @@ function update(source) {
             return d.data.name.length * 0.25;
         })
         .attr('id', function (d) {
-            return d.newnode ? 'newnode' : 'text' + d.id;
+            return 'text' + d.id;
         })
         .text(function (d) {
             return d.data.name;
@@ -327,17 +327,15 @@ var menu = [{
             node.depth = (d.depth + 1);
             node.c = (d.depth == 0 ? color(d.children.length + 1) : d.c);
             // node.c = d.c;
-            node.newnode = 1;
 
             if (d.children == null) {
                 d.children = new Array(node);
             } else {
                 d.children.splice(d.children.length, 0, node);
             }
+            
+            d3.input(node, d3.select('#text'+d.id).node());
             update(d);
-
-            d3.input(node, document.getElementById('newnode'));
-            node.newnode = null;
         }
     },
     {

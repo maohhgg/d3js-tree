@@ -15,24 +15,21 @@ d3.input = function (d,elm) {
 
     // display context menu
     var receiver = d3.select('.receiver')
-        .style('min-width',(elmd.width * svgtransfom.k + 5)+ 'px')
+        .style('min-width',(elmd.width * svgtransfom.k)+ 'px')
         .html(d.data.name)
         .style('display', 'block');
     console.log(receiver);
 
     if(svgtransfom.k != 1){
         receiver
-        .style('width',((elmd.width + 4)*svgtransfom.k)+'px')
-        .style('font-size',(14 * svgtransfom.k)+'px');     
+        .style('width',((elmd.width)*svgtransfom.k)+'px')
+        .style('font-size',(17 * svgtransfom.k)+'px');     
     }
+    console.log(d);
+    receiver.style('left', ((d.y - 1)* svgtransfom.k + svgtransfom.x ) + 'px')
+    .style('top', ((d.x - elmd.x - 35)* svgtransfom.k + svgtransfom.y ) + 'px');
 
-    if(d.children == null){
-        receiver.style('left', ((d.y - elmd.y + 2)* svgtransfom.k + svgtransfom.x ) + 'px')
-        .style('top', ((d.x - elmd.x + 2)* svgtransfom.k + svgtransfom.y ) + 'px');
-    } else {
-        receiver.style('left', (((d.y + elmd.x -2)* svgtransfom.k + svgtransfom.x) ) + 'px')
-        .style('top', (((d.x + elmd.y - 2)* svgtransfom.k + svgtransfom.y)) + 'px');
-    }
+
 
     var re = document.getElementsByClassName("receiver")[0].focus();
     receiver.attr('class',"receiver input")
